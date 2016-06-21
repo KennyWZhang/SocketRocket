@@ -91,7 +91,7 @@ extern NSString *const SRHTTPResponseErrorKey;
 /**
  Current ready state of the socket. Default: `SR_CONNECTING`.
  */
-@property (nonatomic, assign, readonly) SRReadyState readyState;
+@property (atomic, assign, readonly) SRReadyState readyState;
 
 /**
  An instance of `NSURL` that this socket connects to.

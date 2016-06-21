@@ -86,7 +86,7 @@ NSString *const SRHTTPResponseErrorKey = @"HTTPResponseStatusCode";
 
 @interface SRWebSocket ()  <NSStreamDelegate>
 
-@property (nonatomic, assign, readwrite) SRReadyState readyState;
+@property (atomic, assign, readwrite) SRReadyState readyState;
 
 // Specifies whether SSL trust chain should NOT be evaluated.
 // By default this flag is set to NO, meaning only secure SSL connections are allowed.
@@ -244,27 +244,13 @@ NSString *const SRHTTPResponseErrorKey = @"HTTPResponseStatusCode";
 }
 
 ///--------------------------------------
-#pragma mark - Accessors
-///--------------------------------------
-
-#ifndef NDEBUG
-
-- (void)setReadyState:(SRReadyState)aReadyState;
-{
-    assert(aReadyState > _readyState);
-    _readyState = aReadyState;
-}
-
-#endif
-
-///--------------------------------------
 #pragma mark - Open / Close
 ///--------------------------------------
 
 - (void)open
 {
     assert(_url);
-    NSAssert(_readyState == SR_CONNECTING, @"Cannot call -(void)open on SRWebSocket more than once.");
+    NSAssert(self.readyState == SR_CONNECTING, @"Cannot call -(void)open on SRWebSocket more than once.");
 
     _selfRetain = self;
 
